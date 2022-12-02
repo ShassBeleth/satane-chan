@@ -56,10 +56,12 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\SampleComponent.cs" />
-    <Compile Include="Assets\Scripts\PlusButtonComponent.cs" />
-    <Compile Include="Assets\Scripts\MinusButtonComponent.cs" />
-    <Compile Include="Assets\Scripts\RankingButtonComponent.cs" />
+    <Compile Include="Assets\Scripts\GameManagerComponent.cs" />
+    <Compile Include="Assets\Scripts\HpComponent.cs" />
+    <Compile Include="Assets\Scripts\BulletComponent.cs" />
+    <Compile Include="Assets\Scripts\ScoreComponent.cs" />
+    <Compile Include="Assets\Scripts\PlayerComponent.cs" />
+    <Compile Include="Assets\Scripts\ObstacleComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -629,6 +631,9 @@
     <Reference Include="Unity.InternalAPIEngineBridge.001">
       <HintPath>Library\ScriptAssemblies\Unity.InternalAPIEngineBridge.001.dll</HintPath>
     </Reference>
+    <Reference Include="RpgAtsumaruApiForUnity">
+      <HintPath>Library\ScriptAssemblies\RpgAtsumaruApiForUnity.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
@@ -671,11 +676,14 @@
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.PlasticSCM.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+    <Reference Include="RpgAtsumaruApiForUnity.Editor">
+      <HintPath>Library\ScriptAssemblies\RpgAtsumaruApiForUnity.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.PlasticSCM.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
@@ -712,12 +720,6 @@
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.2D.SpriteShape.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="RpgAtsumaruApiForUnity">
-      <HintPath>Library\ScriptAssemblies\RpgAtsumaruApiForUnity.dll</HintPath>
-    </Reference>
-    <Reference Include="RpgAtsumaruApiForUnity.Editor">
-      <HintPath>Library\ScriptAssemblies\RpgAtsumaruApiForUnity.Editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
