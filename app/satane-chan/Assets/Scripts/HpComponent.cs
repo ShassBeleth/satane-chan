@@ -44,6 +44,13 @@ public class HpComponent : MonoBehaviour
     public void Reset()
     {
         Hp = MAX_HP;
+
+        Hp3FullHeartGameObject.SetActive(true);
+        Hp3HalfHeartGameObject.SetActive(true);
+        Hp2FullHeartGameObject.SetActive(true);
+        Hp2HalfHeartGameObject.SetActive(true);
+        Hp1FullHeartGameObject.SetActive(true);
+        Hp1HalfHeartGameObject.SetActive(true);
     }
     /// <summary>
     /// HPÇê›íËÇ∑ÇÈ

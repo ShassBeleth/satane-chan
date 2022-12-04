@@ -48,9 +48,9 @@ public class ObstacleComponent : MonoBehaviour
         transform.localPosition += dt;
     }
     /// <summary>
-    /// ƒvƒŒƒ[ƒ“ƒg‚ª‰ñ“]‚·‚é
+    /// ¯‚ª‰ñ“]‚·‚é
     /// </summary>
-    private void TurnPresent()
+    private void TurnStar()
     {
         foreach (Transform starGraphicTransform in StartRotation)
         {
@@ -86,7 +86,7 @@ public class ObstacleComponent : MonoBehaviour
 
     void Update()
     {
-        TurnPresent();
+        TurnStar();
         Move();
         if (IsOutSideWall())
         {

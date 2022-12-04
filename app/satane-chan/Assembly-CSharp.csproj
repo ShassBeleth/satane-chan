@@ -57,11 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameManagerComponent.cs" />
-    <Compile Include="Assets\Scripts\HpComponent.cs" />
-    <Compile Include="Assets\Scripts\BulletComponent.cs" />
-    <Compile Include="Assets\Scripts\ScoreComponent.cs" />
-    <Compile Include="Assets\Scripts\PlayerComponent.cs" />
     <Compile Include="Assets\Scripts\ObstacleComponent.cs" />
+    <Compile Include="Assets\Scripts\HpComponent.cs" />
+    <Compile Include="Assets\Scripts\PlayerComponent.cs" />
+    <Compile Include="Assets\Scripts\ScoreComponent.cs" />
+    <Compile Include="Assets\Scripts\BulletComponent.cs" />
+    <Compile Include="Assets\Scripts\ImaginationComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

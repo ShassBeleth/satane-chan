@@ -19,11 +19,11 @@ public class ScoreComponent : MonoBehaviour
     /// <summary>
     /// ハイスコア
     /// </summary>
-    private int hiScore;
+    public int HiScore { private set; get; }
     /// <summary>
     /// スコア
     /// </summary>
-    private int score;
+    public int Score { private set; get; }
 
     /// <summary>
     /// スコアのリセット
@@ -31,8 +31,8 @@ public class ScoreComponent : MonoBehaviour
     /// <param name="hiScore">ハイスコア初期値</param>
     public void Reset( int hiScore )
     {
-        this.hiScore = hiScore;
-        this.score = 0;
+        this.HiScore = hiScore;
+        this.Score = 0;
 
         Draw();
     }
@@ -43,10 +43,10 @@ public class ScoreComponent : MonoBehaviour
     /// <param name="increaseScore">増加するスコア</param>
     public void AddScore( int increaseScore )
     {
-        this.score += increaseScore;
-        if( hiScore < score)
+        this.Score += increaseScore;
+        if( HiScore < Score)
         {
-            hiScore = score;
+            HiScore = Score;
         }
 
         Draw();
@@ -57,8 +57,8 @@ public class ScoreComponent : MonoBehaviour
     /// </summary>
     private void Draw()
     {
-        HiScoreText.text = hiScore.ToString();
-        ScoreText.text = score.ToString();
+        HiScoreText.text = HiScore.ToString();
+        ScoreText.text = Score.ToString();
     }
 
 }

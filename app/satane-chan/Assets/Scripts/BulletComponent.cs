@@ -30,6 +30,10 @@ public class BulletComponent : MonoBehaviour
     /// </summary>
     private float MOVE_SPEED = 0.025f;
     /// <summary>
+    /// “–‚½‚è”»’è”¼Œa
+    /// </summary>
+    public static float COLLISION_RADIUS = 0.5f;
+    /// <summary>
     /// ƒvƒŒƒ[ƒ“ƒg‚ª‰ñ“]‚·‚é
     /// </summary>
     private void TurnPresent()
@@ -62,13 +66,20 @@ public class BulletComponent : MonoBehaviour
         if( this.transform.localPosition.y < DOWN_INVISIBLE_WALL) { return true; }
         return false;
     }
+    /// <summary>
+    /// ’e‚ª‰ó‚ê‚é
+    /// </summary>
+    public void BreakBullet()
+    {
+        Destroy(this.gameObject);
+    }
     void Update()
     {
         TurnPresent();
         Move();
         if( IsOutSideWall())
         {
-            Destroy(this.gameObject);
+            BreakBullet();
         }
     }
 }
