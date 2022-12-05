@@ -2,6 +2,7 @@ using RpgAtsumaruApiForUnity;
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
@@ -219,7 +220,6 @@ public class GameManagerComponent : MonoBehaviour
     /// </summary>
     public void HandleClickRestart()
     {
-        Debug.Log("RESTART");
         Initialize();
     }
     /// <summary>
@@ -227,7 +227,6 @@ public class GameManagerComponent : MonoBehaviour
     /// </summary>
     public void HandleClickMoveToTitle()
     {
-        Debug.Log("MOVE TO TITLE");
-        Initialize();
+        SceneManager.LoadScene("TitleScene");
     }
 }
