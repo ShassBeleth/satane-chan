@@ -1,3 +1,4 @@
+using Assets.Scripts.Managers.Parameters;
 using UnityEngine;
 
 /// <summary>
@@ -5,23 +6,10 @@ using UnityEngine;
 /// </summary>
 public class ObstacleComponent : MonoBehaviour
 {
-
     /// <summary>
-    /// 左の見えない壁
+    /// パラメータ管理
     /// </summary>
-    private float LEFT_INVISIBLE_WALL = -10f;
-    /// <summary>
-    /// 右の見えない壁
-    /// </summary>
-    private float RIGHT_INVISIBLE_WALL = 10f;
-    /// <summary>
-    /// 上の見えない壁
-    /// </summary>
-    private float UP_INVISIBLE_WALL = 7f;
-    /// <summary>
-    /// 下の見えない壁
-    /// </summary>
-    private float DOWN_INVISIBLE_WALL = -10f;
+    public ParameterManagerComponent parameterManager;
     /// <summary>
     /// 射出角度
     /// </summary>
@@ -54,7 +42,7 @@ public class ObstacleComponent : MonoBehaviour
     {
         foreach (Transform starGraphicTransform in StartRotation)
         {
-            starGraphicTransform.Rotate(0.0f, 0.0f, 0.3f, Space.Self);
+            starGraphicTransform.Rotate(0.0f, 0.0f, parameterManager.shootingStar.turnSpeed, Space.Self);
         }
     }
     /// <summary>
@@ -63,10 +51,10 @@ public class ObstacleComponent : MonoBehaviour
     /// <returns>壁の外かどうか</returns>
     private bool IsOutSideWall()
     {
-        if (this.transform.localPosition.x < LEFT_INVISIBLE_WALL) { return true; }
-        if (RIGHT_INVISIBLE_WALL < this.transform.localPosition.x) { return true; }
-        if (UP_INVISIBLE_WALL < this.transform.localPosition.y) { return true; }
-        if (this.transform.localPosition.y < DOWN_INVISIBLE_WALL) { return true; }
+        if (this.transform.localPosition.x < parameterManager.shootingStarWall.leftInvisibleWall) { return true; }
+        if (parameterManager.shootingStarWall.rightInvisibleWall < this.transform.localPosition.x) { return true; }
+        if (parameterManager.shootingStarWall.upInvisibleWall < this.transform.localPosition.y) { return true; }
+        if (this.transform.localPosition.y < parameterManager.shootingStarWall.downInvisibleWall) { return true; }
         return false;
     }
     /// <summary>
@@ -79,9 +67,22 @@ public class ObstacleComponent : MonoBehaviour
 
     void Start()
     {
-        this.transform.position = new Vector3(Random.Range(-9f, 9f), 6f, 0f);
-        angle = Random.Range(210f, 330f);
-        moveSpeed = Random.Range(0.01f, 0.03f);
+        this.transform.position = new Vector3(
+            Random.Range(
+                parameterManager.shootingStar.horizontalOccurPosMin,
+                parameterManager.shootingStar.horizontalOccurPosMax
+                ), 
+            parameterManager.shootingStar.occurPosUp, 
+            0f
+            );
+        angle = Random.Range(
+            parameterManager.shootingStar.minAngle, 
+            parameterManager.shootingStar.maxAngle
+            );
+        moveSpeed = Random.Range(
+            parameterManager.shootingStar.minSpeed,
+            parameterManager.shootingStar.maxSpeed
+            );
     }
 
     void Update()

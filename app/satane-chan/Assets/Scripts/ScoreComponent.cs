@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// スコア用コンポーネント
@@ -10,11 +9,11 @@ public class ScoreComponent : MonoBehaviour
     /// <summary>
     /// ハイスコア
     /// </summary>
-    public Text HiScoreText;
+    public NumberComponent HiScoreNumberComponent;
     /// <summary>
     /// スコア
     /// </summary>
-    public Text ScoreText;
+    public NumberComponent ScoreNumberComponent;
 
     /// <summary>
     /// ハイスコア
@@ -57,8 +56,8 @@ public class ScoreComponent : MonoBehaviour
     /// </summary>
     private void Draw()
     {
-        HiScoreText.text = HiScore.ToString();
-        ScoreText.text = Score.ToString();
+        HiScoreNumberComponent.SetNumber(HiScore);
+        ScoreNumberComponent.SetNumber(Score);
     }
 
 }

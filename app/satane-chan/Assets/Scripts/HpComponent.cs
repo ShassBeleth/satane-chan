@@ -1,3 +1,4 @@
+using Assets.Scripts.Managers.Parameters;
 using UnityEngine;
 
 /// <summary>
@@ -6,9 +7,9 @@ using UnityEngine;
 public class HpComponent : MonoBehaviour
 {
     /// <summary>
-    /// 最大HP
+    /// パラメータ管理
     /// </summary>
-    private int MAX_HP = 6;
+    public ParameterManagerComponent parameterManager;
     /// <summary>
     /// HP1のハート満タンオブジェクト
     /// </summary>
@@ -43,7 +44,7 @@ public class HpComponent : MonoBehaviour
     /// </summary>
     public void Reset()
     {
-        Hp = MAX_HP;
+        Hp = parameterManager.hp.maxHp;
 
         Hp3FullHeartGameObject.SetActive(true);
         Hp3HalfHeartGameObject.SetActive(true);

@@ -1,3 +1,4 @@
+using Assets.Scripts.Managers.Parameters;
 using UnityEngine;
 
 /// <summary>
@@ -5,27 +6,10 @@ using UnityEngine;
 /// </summary>
 public class PlayerComponent : MonoBehaviour
 {
-
     /// <summary>
-    /// 左の見えない壁
+    /// パラメータ管理
     /// </summary>
-    private float LEFT_INVISIBLE_WALL = -7f;
-    /// <summary>
-    /// 右の見えない壁
-    /// </summary>
-    private float RIGHT_INVISIBLE_WALL = 7f;
-    /// <summary>
-    /// 上の見えない壁
-    /// </summary>
-    private float UP_INVISIBLE_WALL = 4f;
-    /// <summary>
-    /// 下の見えない壁
-    /// </summary>
-    private float DOWN_INVISIBLE_WALL = -4f;
-    /// <summary>
-    /// プレイヤーの移動量
-    /// </summary>
-    private float AMOUNT_OF_PLAYER_MOVEMENT = 0.05f;
+    public ParameterManagerComponent parameterManagerComponent;
     /// <summary>
     /// プレイヤーの通常のスケール
     /// </summary>
@@ -34,20 +18,11 @@ public class PlayerComponent : MonoBehaviour
     /// プレイヤーの反転したスケール
     /// </summary>
     private Vector3 PLAYER_REVERSE_SCALE = new Vector3(-1.0f, 1.0f, 1.0f);
-    /// <summary>
-    /// プレイヤーとカーソルの距離
-    /// </summary>
-    private float DISTANCE_BETWEEN_PLAYER_AND_CURSOR = 3.5f;
 
     /// <summary>
     /// プレイヤーの角度
     /// </summary>
     public float Angle { private set; get; }
-
-    /// <summary>
-    /// 当たり判定半径
-    /// </summary>
-    public float COLLISION_RADIUS { private set; get; } = 0.60f;
 
     /// <summary>
     /// プレイヤーの座標
@@ -80,10 +55,10 @@ public class PlayerComponent : MonoBehaviour
     public void MoveLeft()
     {
         Vector3 position = PlayerPosition.position;
-        position.x -= AMOUNT_OF_PLAYER_MOVEMENT;
-        if (position.x < LEFT_INVISIBLE_WALL)
+        position.x -= parameterManagerComponent.player.amountOfPlayerMovement;
+        if (position.x < parameterManagerComponent.playerWall.leftInvisibleWall)
         {
-            position.x = LEFT_INVISIBLE_WALL;
+            position.x = parameterManagerComponent.playerWall.leftInvisibleWall;
         }
         PlayerPosition.position = position;
     }
@@ -93,10 +68,10 @@ public class PlayerComponent : MonoBehaviour
     public void MoveRight()
     {
         Vector3 position = PlayerPosition.position;
-        position.x += AMOUNT_OF_PLAYER_MOVEMENT;
-        if (RIGHT_INVISIBLE_WALL < position.x)
+        position.x += parameterManagerComponent.player.amountOfPlayerMovement;
+        if (parameterManagerComponent.playerWall.rightInvisibleWall < position.x)
         {
-            position.x = RIGHT_INVISIBLE_WALL;
+            position.x = parameterManagerComponent.playerWall.rightInvisibleWall;
         }
         PlayerPosition.position = position;
     }
@@ -106,10 +81,10 @@ public class PlayerComponent : MonoBehaviour
     public void MoveUp()
     {
         Vector3 position = PlayerPosition.position;
-        position.y += AMOUNT_OF_PLAYER_MOVEMENT;
-        if (UP_INVISIBLE_WALL < position.y)
+        position.y += parameterManagerComponent.player.amountOfPlayerMovement;
+        if (parameterManagerComponent.playerWall.upInvisibleWall < position.y)
         {
-            position.y = UP_INVISIBLE_WALL;
+            position.y = parameterManagerComponent.playerWall.upInvisibleWall;
         }
         PlayerPosition.position = position;
     }
@@ -119,10 +94,10 @@ public class PlayerComponent : MonoBehaviour
     public void MoveDown()
     {
         Vector3 position = PlayerPosition.position;
-        position.y -= AMOUNT_OF_PLAYER_MOVEMENT;
-        if (position.y < DOWN_INVISIBLE_WALL)
+        position.y -= parameterManagerComponent.player.amountOfPlayerMovement;
+        if (position.y < parameterManagerComponent.playerWall.downInvisibleWall)
         {
-            position.y = DOWN_INVISIBLE_WALL;
+            position.y = parameterManagerComponent.playerWall.downInvisibleWall;
         }
         PlayerPosition.position = position;
     }
@@ -146,15 +121,23 @@ public class PlayerComponent : MonoBehaviour
             PlayerScale.localScale = PLAYER_REVERSE_SCALE;
             PlayerRotation.rotation = Quaternion.Euler(0.0f, 0.0f, this.Angle - 180);
         }
+        CursorPosition.rotation = Quaternion.Euler(0.0f, 0.0f,this.Angle);
     }
     /// <summary>
     /// 弾を撃つ
     /// </summary>
     public void Shot()
     {
+        if ( BulletsListGameObject.transform.childCount > 5)
+        {
+            return;
+        }
         GameObject obj = Instantiate(BulletPrefab, PlayerPosition.position, Quaternion.identity);
         obj.transform.parent = BulletsListGameObject.transform;
-        obj.GetComponent<BulletComponent>().Angle = this.Angle;
+        BulletComponent bullet = obj.GetComponent<BulletComponent>();
+        bullet.Angle = this.Angle;
+        bullet.parameterManager = parameterManagerComponent;
+        bullet.shotPlayerPosition = PlayerPosition.position;
     }
     /// <summary>
     /// カーソルの座標を更新する
@@ -165,7 +148,8 @@ public class PlayerComponent : MonoBehaviour
         Vector3 screenToWorldMousePosition = Camera.main.ScreenToWorldPoint(targetPosition);
         screenToWorldMousePosition.z = 0.0f;
         Vector3 normalized = (screenToWorldMousePosition - PlayerPosition.position).normalized;
-        CursorPosition.position = PlayerPosition.position + (normalized * DISTANCE_BETWEEN_PLAYER_AND_CURSOR);
+        Vector3 position = PlayerPosition.position + (normalized * parameterManagerComponent.player.distanceBetweenPlayerAndCursor);
+        CursorPosition.position = position;
     }
 
 }

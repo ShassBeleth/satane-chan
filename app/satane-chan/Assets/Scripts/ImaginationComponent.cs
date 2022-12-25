@@ -1,3 +1,4 @@
+using Assets.Scripts.Managers.Parameters;
 using UnityEngine;
 
 /// <summary>
@@ -6,22 +7,9 @@ using UnityEngine;
 public class ImaginationComponent : MonoBehaviour
 {
     /// <summary>
-    /// 出現位置最西端
+    /// パラメータ管理
     /// </summary>
-    private float WESTERNMOST = -10f;
-    /// <summary>
-    /// 出現位置最東端
-    /// </summary>
-    private float EASTERNMOST = 10f;
-    /// <summary>
-    /// 出現位置最北端
-    /// </summary>
-    private float NORTHERNMOST = 10f;
-    /// <summary>
-    /// 出現位置最南端
-    /// </summary>
-    private float SOUTHERNMOST = -10f;
-
+    public ParameterManagerComponent parameterManager;
     /// <summary>
     /// 星が壊れる
     /// </summary>
@@ -31,6 +19,16 @@ public class ImaginationComponent : MonoBehaviour
     }
     void Start()
     {
-        this.transform.position = new Vector3(Random.Range(WESTERNMOST, EASTERNMOST), Random.Range(SOUTHERNMOST, NORTHERNMOST), 0f);
+        this.transform.position = new Vector3(
+            Random.Range(
+                parameterManager.imaginationWall.westernMost,
+                parameterManager.imaginationWall.easterMost
+                ),
+            Random.Range(
+                parameterManager.imaginationWall.southernMost,
+                parameterManager.imaginationWall.northernMost
+                ), 
+            0f
+            );
     }
 }

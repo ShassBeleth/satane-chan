@@ -56,14 +56,31 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Managers\Parameters\Scores\Score.cs" />
     <Compile Include="Assets\Scripts\GameManagerComponent.cs" />
     <Compile Include="Assets\Scripts\ObstacleComponent.cs" />
+    <Compile Include="Assets\Scripts\Managers\Parameters\Bullets\Bullet.cs" />
     <Compile Include="Assets\Scripts\HpComponent.cs" />
+    <Compile Include="Assets\Scripts\Managers\Parameters\Imaginations\Imagination.cs" />
+    <Compile Include="Assets\Scripts\Managers\Parameters\Bullets\BulletWall.cs" />
+    <Compile Include="Assets\Scripts\Managers\Parameters\Obstacles\ShootingStarWall.cs" />
+    <Compile Include="Assets\Scripts\Effects\SpinComponent.cs" />
+    <Compile Include="Assets\Scripts\Managers\Parameters\ParameterManagerComponent.cs" />
+    <Compile Include="Assets\Scripts\Managers\Parameters\Players\Hp.cs" />
+    <Compile Include="Assets\Scripts\HouseComponent.cs" />
+    <Compile Include="Assets\Scripts\Managers\Parameters\Players\PlayerWall.cs" />
+    <Compile Include="Assets\Scripts\NumberComponent.cs" />
     <Compile Include="Assets\Scripts\PlayerComponent.cs" />
+    <Compile Include="Assets\Scripts\Managers\Parameters\Imaginations\ImaginationWall.cs" />
+    <Compile Include="Assets\Scripts\HouseFactoryComponent.cs" />
+    <Compile Include="Assets\Scripts\Managers\Parameters\Players\Player.cs" />
     <Compile Include="Assets\Scripts\ImaginationComponent.cs" />
+    <Compile Include="Assets\Scripts\Managers\Parameters\Houses\House.cs" />
+    <Compile Include="Assets\Scripts\Managers\Parameters\Obstacles\ShootingStar.cs" />
+    <Compile Include="Assets\Scripts\TitleComponent.cs" />
     <Compile Include="Assets\Scripts\ScoreComponent.cs" />
     <Compile Include="Assets\Scripts\BulletComponent.cs" />
-    <Compile Include="Assets\Scripts\TitleComponent.cs" />
+    <Compile Include="Assets\Scripts\Managers\Parameters\Numbers\Number.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

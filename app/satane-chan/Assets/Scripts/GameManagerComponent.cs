@@ -1,29 +1,19 @@
+using Assets.Scripts.Managers.Parameters;
 using RpgAtsumaruApiForUnity;
 using System;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
-using UnityEngine.UI;
 
 /// <summary>
 /// ゲーム管理用コンポーネント
 /// </summary>
 public class GameManagerComponent : MonoBehaviour
 {
-
-    #region 定数
-    /// <summary>
-    /// 時間で増加する得点
-    /// </summary>
-    private int INCREASES_WITH_TIME_SCORE = 10;
-    /// <summary>
-    /// プレゼントが吹き出しに当たったときに増加する点数
-    /// </summary>
-    private int INCREASES_HIT_SCORE = 1000;
-    #endregion
-
     #region コンポーネント
+    /// <summary>
+    /// パラメータ管理
+    /// </summary>
+    public ParameterManagerComponent parameterManager;
     /// <summary>
     /// HPのグラフィック管理用コンポーネント
     /// </summary>
@@ -57,9 +47,9 @@ public class GameManagerComponent : MonoBehaviour
     /// </summary>
     public GameObject GameOverPanelGameObject;
     /// <summary>
-    /// ゲームオーバー時に表示されるパネルのリザルトテキスト
+    /// ゲームオーバー時に表示されるパネルのリザルト
     /// </summary>
-    public Text ResultText;
+    public NumberComponent ResultNumberComponent;
     #endregion
     /// <summary>
     /// 障害物が発生する
@@ -68,6 +58,7 @@ public class GameManagerComponent : MonoBehaviour
     {
         GameObject obj = Instantiate(ObstaclePrefab, Vector3.zero, Quaternion.identity);
         obj.transform.parent = ObstaclesListGameObject.transform;
+        obj.GetComponent<ObstacleComponent>().parameterManager = parameterManager;
     }
     /// <summary>
     /// 想像吹き出しが発生する
@@ -76,6 +67,7 @@ public class GameManagerComponent : MonoBehaviour
     {
         GameObject obj = Instantiate(ImaginationPrefab, Vector3.zero, Quaternion.identity);
         obj.transform.parent = ImaginationsListGameObject.transform;
+        obj.GetComponent<ImaginationComponent>().parameterManager = parameterManager;
     }
 
     /// <summary>
@@ -90,7 +82,7 @@ public class GameManagerComponent : MonoBehaviour
     private void Initialize()
     {
         this.HpComponent.Reset();
-        ScoreComponent.Reset(100);
+        ScoreComponent.Reset(parameterManager.score.defaultHiScore);
         UnityEngine.Random.InitState(DateTime.Now.Millisecond);
         foreach (Transform bullet in PlayerComponent.BulletsListGameObject.transform)
         {
@@ -127,7 +119,7 @@ public class GameManagerComponent : MonoBehaviour
         {
             if( !finished)
             {
-                ResultText.text = ScoreComponent.ScoreText.text;
+                ResultNumberComponent.SetNumber(ScoreComponent.Score);
                 GameOverPanelGameObject.SetActive(true);
 
                 finished = true;
@@ -135,7 +127,6 @@ public class GameManagerComponent : MonoBehaviour
                 // RPGアツマールにスコアを送信する
                 await RpgAtsumaruApi.ScoreboardApi.SendScoreAsync(1, ScoreComponent.Score);
                 await RpgAtsumaruApi.ScoreboardApi.ShowScoreboardAsync(1);
-
 
             }
             return;
@@ -174,7 +165,7 @@ public class GameManagerComponent : MonoBehaviour
         foreach (Transform obstacleChildTransform in this.ObstaclesListGameObject.transform)
         {
             float distanceBetweenPlayerAndObstacle = (PlayerComponent.PlayerPosition.transform.position - obstacleChildTransform.position).magnitude;
-            if (distanceBetweenPlayerAndObstacle < PlayerComponent.COLLISION_RADIUS)
+            if (distanceBetweenPlayerAndObstacle < parameterManager.player.collisionRadius)
             {
                 HpComponent.Damage();
                 obstacleChildTransform.GetComponent<ObstacleComponent>().BreakStar();
@@ -187,30 +178,37 @@ public class GameManagerComponent : MonoBehaviour
             foreach (Transform imaginationChildTransform in this.ImaginationsListGameObject.transform)
             {
                 float distanceBetweenBulletAndImagination = (bulletChildTransform.position - imaginationChildTransform.position).magnitude;
-                if( distanceBetweenBulletAndImagination < BulletComponent.COLLISION_RADIUS )
+                if( distanceBetweenBulletAndImagination < parameterManager.bullet.collisionRadius )
                 {
-                    ScoreComponent.AddScore(INCREASES_HIT_SCORE);
+                    BulletComponent bulletComponent = bulletChildTransform.GetComponent<BulletComponent>();
+                    float distanceBetweenPlayerAndImagination = (bulletComponent.shotPlayerPosition - imaginationChildTransform.position).magnitude;
+                    float ratio = (16 - distanceBetweenPlayerAndImagination) / 16;
+                    if( ratio < 0f)
+                    {
+                        ratio = 0f;
+                    }
+                    ScoreComponent.AddScore((int)(parameterManager.score.hitScore * ratio));
                     imaginationChildTransform.GetComponent<ImaginationComponent>().BreakStar();
-                    bulletChildTransform.GetComponent<BulletComponent>().BreakBullet();
+                    bulletComponent.BreakBullet();
                     break;
                 }
             }
         }
         // スコアの更新
-        if (count % 60 == 0 && count != 0)
+        if (count % parameterManager.score.timeScoreInterval == 0 && count != 0)
         {
-            ScoreComponent.AddScore(INCREASES_WITH_TIME_SCORE);
+            ScoreComponent.AddScore(parameterManager.score.timeScore);
         }
 
         count++;
 
         // 障害物の出現
-        if (count % 200 == 0)
+        if (count % parameterManager.shootingStar.occurInterval == 0)
         {
             OccurObstacle();
         }
         // 吹き出しの出現
-        if (count % 400 == 50)
+        if (count % parameterManager.imagination.occurInterval == 50)
         {
             OccurImagination();
         }
