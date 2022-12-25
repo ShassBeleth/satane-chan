@@ -9,6 +9,12 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameManagerComponent : MonoBehaviour
 {
+
+    /// <summary>
+    /// アツマール用のAPIを使用するか胴か
+    /// </summary>
+    public bool useAtsumaruAPI;
+
     #region コンポーネント
     /// <summary>
     /// パラメータ管理
@@ -101,10 +107,14 @@ public class GameManagerComponent : MonoBehaviour
     }
     private void Awake()
     {
-        // アツマール用のプラグインを初回起動時のみ初期化する
-        if (!RpgAtsumaruApi.Initialized)
+        if(useAtsumaruAPI)
         {
-            RpgAtsumaruApi.Initialize();
+
+            // アツマール用のプラグインを初回起動時のみ初期化する
+            if (!RpgAtsumaruApi.Initialized)
+            {
+                RpgAtsumaruApi.Initialize();
+            }
         }
 
         Initialize();
@@ -124,9 +134,12 @@ public class GameManagerComponent : MonoBehaviour
 
                 finished = true;
 
-                // RPGアツマールにスコアを送信する
-                await RpgAtsumaruApi.ScoreboardApi.SendScoreAsync(1, ScoreComponent.Score);
-                await RpgAtsumaruApi.ScoreboardApi.ShowScoreboardAsync(1);
+                if( useAtsumaruAPI)
+                {
+                    // RPGアツマールにスコアを送信する
+                    await RpgAtsumaruApi.ScoreboardApi.SendScoreAsync(1, ScoreComponent.Score);
+                    await RpgAtsumaruApi.ScoreboardApi.ShowScoreboardAsync(1);
+                }
 
             }
             return;
